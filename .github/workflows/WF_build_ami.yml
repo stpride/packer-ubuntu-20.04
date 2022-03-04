@@ -1,0 +1,46 @@
+name: Ubuntu 20.04 base AMI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+    name: packer
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install Pip and Ansible
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible requests
+
+      - name: Install Packer
+        uses: myci-actions/add-deb-repo@10
+        with:
+          repo: deb [arch=amd64] https://apt.releases.hashicorp.com focal main
+          keys-asc: https://apt.releases.hashicorp.com/gpg
+          update: true
+          install: packer
+
+      - name: Validate Template
+        run: 'packer validate -syntax-only packer.pkr.hcl'
+
+      - name: Initialize Packer modules
+        run: 'packer init config.pkr.hcl'
+
+      - name: Build Artifact
+        run: 'packer build -color=false -on-error=cleanup packer.pkr.hcl'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_AMI_ACCOUNTS: ${{ secrets.AWS_AMI_ACCOUNTS }}
+          AWS_OWNER: ${{ secrets.AWS_OWNER }}
+

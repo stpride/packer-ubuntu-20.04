@@ -9,13 +9,11 @@
 default:
   image: spride/packer-ansible:1.7.10
 
-
 ### Define build stages
 
 stages:
   - validate
   - build
-
 
 ### Validate the Packer build script
 
@@ -24,7 +22,6 @@ validate-job:
   script:
     - echo "Validating Packer file"
     - packer validate -syntax-only packer.pkr.hcl
-
 
 ### Initialize the Packer plugin and build the AMI
 

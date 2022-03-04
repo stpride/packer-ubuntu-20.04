@@ -1,0 +1,11 @@
+---
+- import_tasks: apt.yml
+
+#- name: Set timezone to America/Los_Angeles (common-ubuntu:ntp.yml)
+#  timezone:
+#    name: America/Los_Angeles
+
+- import_tasks: python3.yml
+- import_tasks: ansible.yml
+- import_tasks: awscli.yml
+- import_tasks: reboot.yml

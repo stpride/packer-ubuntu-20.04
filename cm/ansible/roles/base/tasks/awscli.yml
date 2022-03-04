@@ -1,0 +1,14 @@
+---
+- name: awscli | Download AWS CLI zip file
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp/awscli.zip
+
+- name: awscli | Unzip AWS CLI zip file
+  unarchive:
+    src: /tmp/awscli.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: awscli | Install AWS CLI
+  command: /tmp/aws/install

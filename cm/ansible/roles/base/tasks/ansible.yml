@@ -1,0 +1,11 @@
+---
+- name: ansible | Add ansible stable repository from PPA and install its signing key on Ubuntu target
+  apt_repository:
+    repo: ppa:ansible/ansible
+    update_cache: yes
+
+- name: ansible | Install ansible
+  apt:
+    name: ansible
+    state: present
+    update_cache: yes

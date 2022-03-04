@@ -1,0 +1,21 @@
+---
+- name: apt | Install necessary packages
+  apt:
+    pkg:
+     - vim
+     - unattended-upgrades
+     - screen
+     - bash
+     - open-vm-tools
+     - tzdata
+     - curl
+     - software-properties-common
+     - unzip
+    force_apt_get: yes
+    update_cache: yes
+    state: latest
+
+- name: apt | Upgrade all apt packages
+  apt:
+    upgrade: dist
+    force_apt_get: yes
